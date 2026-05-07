@@ -151,7 +151,17 @@ else {
 const result=calcRound(g);
 io.to(socket.roomId).emit("round_over",result);
 if (result.winner) { io.to(socket.roomId).emit("game_over",result); delete rooms[socket.roomId]; }
-else { const newG=initGame(); newG.p1Score=g.p1Score; newG.p2Score=g.p2Score; room.game=newG; setTimeout(function(){broadcast(socket.roomId);},3500); }
+else { 
+  const newG=initGame(); 
+  newG.p1Score=g.p1Score; 
+  newG.p2Score=g.p2Score;
+  newG.p1TotalScore=(room.p1TotalScore||0)+g.p1Score;
+  newG.p2TotalScore=(room.p2TotalScore||0)+g.p2Score;
+  room.p1TotalScore=newG.p1TotalScore;
+  room.p2TotalScore=newG.p2TotalScore;
+  room.game=newG; 
+  setTimeout(function(){broadcast(socket.roomId);},3500); 
+}
 }
 } else { g.currentPlayer=g.currentPlayer===1?2:1; broadcast(socket.roomId); }
 });
