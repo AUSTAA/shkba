@@ -70,23 +70,23 @@ const bajiDin = p1d>=5 && p2d>=5;
 const bajiBarm = (p1s7>=2 && p1s6>=2) && (p2s7>=2 && p2s6>=2);
 const bajiKart = g.p1Collected.length===20 && g.p2Collected.length===20;
 const bajiOn = bajiDin || bajiBarm || bajiKart;
-if (bajiDin) { p1det.push("dinari baji"); p2det.push("dinari baji"); }
-if (bajiBarm) { p1det.push("barmeela baji"); p2det.push("barmeela baji"); }
-if (bajiKart) { p1det.push("karta baji"); p2det.push("karta baji"); }
+if (bajiDin) { p1det.push("حيه باجي"); p2det.push("حيه باجي"); }
+if (bajiBarm) { p1det.push("برميله باجي"); p2det.push("برميله باجي"); }
+if (bajiKart) { p1det.push("كارطه باجي"); p2det.push("كارطه باجي"); }
 const p1sh = g.p1Collected.filter(function(c){return c.shkba;}).reduce(function(s,c){return s+cardVal(c.value);},0);
 const p2sh = g.p2Collected.filter(function(c){return c.shkba;}).reduce(function(s,c){return s+cardVal(c.value);},0);
-if (p1sh) { p1pts+=p1sh; p1det.push("shkba "+p1sh); }
-if (p2sh) { p2pts+=p2sh; p2det.push("shkba "+p2sh); }
+if (p1sh) { p1pts+=p1sh; p1det.push("شكبه "+p1sh); }
+if (p2sh) { p2pts+=p2sh; p2det.push("شكبه "+p2sh); }
 if (!bajiOn) {
-if (p1d>p2d) { p1pts++; p1det.push("dinari 1"); }
-else if (p2d>p1d) { p2pts++; p2det.push("dinari 1"); }
-if (p1s7>=3||(p1s7>=2&&p1s6>=3)) { p1pts++; p1det.push("barmeela 1"); }
-if (p2s7>=3||(p2s7>=2&&p2s6>=3)) { p2pts++; p2det.push("barmeela 1"); }
-if (g.p1Collected.some(function(c){return c.value==="7"&&c.suit==="diamonds";})) { p1pts++; p1det.push("haya 1"); }
-if (g.p2Collected.some(function(c){return c.value==="7"&&c.suit==="diamonds";})) { p2pts++; p2det.push("haya 1"); }
+if (p1d>p2d) { p1pts++; p1det.push("ديناري"); }
+else if (p2d>p1d) { p2pts++; p2det.push("ديناري"); }
+if (p1s7>=3||(p1s7>=2&&p1s6>=3)) { p1pts++; p1det.push("برميله"); }
+if (p2s7>=3||(p2s7>=2&&p2s6>=3)) { p2pts++; p2det.push("برميله"); }
+if (g.p1Collected.some(function(c){return c.value==="7"&&c.suit==="diamonds";})) { p1pts++; p1det.push("حيه"); }
+if (g.p2Collected.some(function(c){return c.value==="7"&&c.suit==="diamonds";})) { p2pts++; p2det.push("حيه"); }
 g.p1Score+=p1pts; g.p2Score+=p2pts;
 }
-return { player1Details: p1det.join(", ")||"nothing", player2Details: p2det.join(", ")||"nothing", player1Score: g.p1Score, player2Score: g.p2Score, winner: g.p1Score>=61?1:g.p2Score>=61?2:null };
+return { player1Details: p1det.join(", ")||"لا شيء", player2Details: p2det.join(", ")||"لا شيء", player1Score: g.p1Score, player2Score: g.p2Score, winner: g.p1Score>=61?1:g.p2Score>=61?2:null };
 }
 function broadcast(roomId) {
 const room = rooms[roomId];
@@ -119,7 +119,7 @@ socket.on("play_card", function(data) {
 const room = rooms[socket.roomId];
 if (!room||!room.game) return;
 const g = room.game; const pn = socket.playerNumber;
-if (g.currentPlayer!==pn) { socket.emit("error",{message:"Not your turn!"}); return; }
+if (g.currentPlayer!==pn) { socket.emit("error",{message:"ليس دورك!"}); return; }
 const hand = pn===1?g.p1Hand:g.p2Hand;
 const collected = pn===1?g.p1Collected:g.p2Collected;
 const ci = data.cardIndex;
